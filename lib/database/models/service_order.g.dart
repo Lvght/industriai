@@ -19,7 +19,7 @@ class ServiceOrderAdapter extends TypeAdapter<ServiceOrder> {
     return ServiceOrder(
       id: fields[0] as String,
       transcription: fields[1] as String,
-      procedures: (fields[2] as List).cast<Order>(),
+      orders: (fields[2] as List).cast<Order>(),
     );
   }
 
@@ -32,7 +32,7 @@ class ServiceOrderAdapter extends TypeAdapter<ServiceOrder> {
       ..writeByte(1)
       ..write(obj.transcription)
       ..writeByte(2)
-      ..write(obj.procedures);
+      ..write(obj.orders);
   }
 
   @override
@@ -53,7 +53,7 @@ class ServiceOrderAdapter extends TypeAdapter<ServiceOrder> {
 ServiceOrder _$ServiceOrderFromJson(Map<String, dynamic> json) => ServiceOrder(
       id: json['id'] as String,
       transcription: json['transcription'] as String,
-      procedures: (json['orders'] as List<dynamic>)
+      orders: (json['orders'] as List<dynamic>)
           .map((e) => Order.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
@@ -62,5 +62,5 @@ Map<String, dynamic> _$ServiceOrderToJson(ServiceOrder instance) =>
     <String, dynamic>{
       'id': instance.id,
       'transcription': instance.transcription,
-      'orders': instance.procedures,
+      'orders': instance.orders,
     };

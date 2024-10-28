@@ -5,8 +5,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:industriai/api_clients/service_order_api_client.dart';
 import 'package:industriai/api_clients/service_order_api_client_interface.dart';
 import 'package:industriai/database/models/maintenance.dart';
-import 'package:industriai/database/models/procedure.dart';
+import 'package:industriai/database/models/order.dart';
 import 'package:industriai/database/models/service_order.dart';
+import 'package:industriai/database/repositories/service_order_repository.dart';
+import 'package:industriai/database/repositories/service_order_repository_interface.dart';
 
 import 'package:industriai/helpers/configuration.dart';
 import 'package:industriai/screens/dashboard/dashboard_screen.dart';
@@ -45,8 +47,8 @@ class _InitialLoadState extends State<InitialLoad> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      _registerServices();
       await _registerDatabaseAdapters();
+      _registerServices();
       _sendToNextStep();
     });
   }
@@ -61,6 +63,8 @@ class _InitialLoadState extends State<InitialLoad> {
   }
 
   void _registerServices() {
+    GetIt.I.registerSingleton<ServiceOrderRepositoryInterface>(
+        ServiceOrderRepository());
     GetIt.I.registerSingleton<Dio>(_getHttpClient());
     GetIt.I.registerSingleton<ServiceOrderApiClientInterface>(
       ServiceOrderApiClient(),
@@ -81,6 +85,8 @@ class _InitialLoadState extends State<InitialLoad> {
     Hive.registerAdapter(MaintenanceAdapter());
     Hive.registerAdapter(OrderAdapter());
     Hive.registerAdapter(ServiceOrderAdapter());
+
+    await Hive.openBox<ServiceOrder>('service_order');
   }
 
   Dio _getHttpClient() {

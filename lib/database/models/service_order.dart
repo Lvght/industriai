@@ -22,7 +22,7 @@ class ServiceOrder extends HiveObject {
 
   @HiveField(_DbFieldIndexes.procedures)
   @JsonKey(name: 'orders')
-  final List<Order> procedures;
+  final List<Order> orders;
 
   factory ServiceOrder.fromJson(Map<String, dynamic> json) =>
       _$ServiceOrderFromJson(json);
@@ -32,6 +32,6 @@ class ServiceOrder extends HiveObject {
   ServiceOrder({
     required this.id,
     required this.transcription,
-    required this.procedures,
+    required this.orders,
   });
 }

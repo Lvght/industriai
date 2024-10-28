@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:industriai/components/service_order_card.dart';
 import 'package:industriai/database/models/service_order.dart';
 import 'package:industriai/global_cubits/service_order/service_order_cubit.dart';
 
@@ -68,9 +69,7 @@ class _ServiceOrderListScreenState extends State<ServiceOrderListScreen> {
         itemCount: serviceOrders.length,
         itemBuilder: (context, index) {
           final order = serviceOrders[index];
-          return ListTile(
-            title: Text(order.transcription),
-          );
+          return ServiceOrderCard(order);
         },
       ),
     );
