@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:industriai/database/service_order.dart';
+import 'package:industriai/database/models/service_order.dart';
 import 'package:industriai/global_cubits/service_order/service_order_cubit.dart';
 
 class ServiceOrderListScreen extends StatefulWidget {

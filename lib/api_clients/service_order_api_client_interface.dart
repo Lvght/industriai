@@ -1,4 +1,4 @@
-import 'package:industriai/database/service_order.dart';
+import 'package:industriai/database/models/service_order.dart';
 
 class FetchServiceOrderException implements Exception {
   final String message;

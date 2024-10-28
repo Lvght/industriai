@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:industriai/api_clients/service_order_api_client_interface.dart';
-import 'package:industriai/database/service_order.dart';
+import 'package:industriai/database/models/service_order.dart';
 
 class ServiceOrderApiClient implements ServiceOrderApiClientInterface {
   final _client = GetIt.I.get<Dio>();

@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:industriai/api_clients/service_order_api_client_interface.dart';
-import 'package:industriai/database/service_order.dart';
+import 'package:industriai/database/models/service_order.dart';
 
 part 'service_order_cubit.freezed.dart';
 part 'service_order_state.dart';
