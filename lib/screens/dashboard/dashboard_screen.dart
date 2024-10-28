@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:industriai/screens/compose/compose_service_order_screen.dart';
 import 'package:industriai/screens/dashboard/dashboard_cubit.dart';
 import 'package:industriai/screens/service_order/service_order_list_screen.dart';
 import 'package:path_provider/path_provider.dart';
@@ -25,40 +26,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           body: IndexedStack(
             index: state.currentIndex,
             children: [
-              Scaffold(
-                body: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      OutlinedButton(
-                        onPressed: () async {
-                          final recorder = AudioRecorder();
-                          final appDocumentsDirectory = await getApplicationDocumentsDirectory();
-                          final recordedAudioPath = appDocumentsDirectory.path + '/recorder.wav';
-                          final recordConfig = RecordConfig();
-
-                          await recorder.start(recordConfig, path: recordedAudioPath);
-                          await Future.delayed(Duration(seconds: 5));
-                          await recorder.stop();
-
-
-                          // Playing
-                          final player = AudioPlayer();
-                          final audioCache = DeviceFileSource(recordedAudioPath);
-
-                          await audioCache.setOnPlayer(player);
-                          await player.setVolume(1);
-                          await player.play(audioCache);
-
-                          await Future.delayed(Duration(seconds: 5));
-
-                        },
-                        child: Text('Ouvir'),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              ComposeServiceOrderScreen(),
               ServiceOrderListScreen(),
               Container(color: Colors.amber),
               Container(color: Colors.green),

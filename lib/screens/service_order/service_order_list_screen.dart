@@ -64,13 +64,16 @@ class _ServiceOrderListScreenState extends State<ServiceOrderListScreen> {
   }
 
   Widget _renderLoaded(List<ServiceOrder> serviceOrders) {
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: serviceOrders.length,
-        itemBuilder: (context, index) {
-          final order = serviceOrders[index];
-          return ServiceOrderCard(order);
-        },
+    return RefreshIndicator(
+      onRefresh: () async => await _cubit.fetch(),
+      child: Scaffold(
+        body: ListView.builder(
+          itemCount: serviceOrders.length,
+          itemBuilder: (context, index) {
+            final order = serviceOrders[index];
+            return ServiceOrderCard(order);
+          },
+        ),
       ),
     );
   }

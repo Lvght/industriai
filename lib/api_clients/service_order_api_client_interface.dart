@@ -9,7 +9,7 @@ class FetchServiceOrderException implements Exception {
 abstract interface class ServiceOrderApiClientInterface {
   Future<List<ServiceOrder>> fetchServiceOrders();
 
-  Future<ServiceOrder> createServiceOrderFromAudio({
+  Future<ServiceOrder?> createServiceOrderFromAudio({
     required String audioPath,
   });
 }

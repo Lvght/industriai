@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:industriai/api_clients/service_order_api_client_interface.dart';
 import 'package:industriai/database/models/service_order.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ServiceOrderApiClient implements ServiceOrderApiClientInterface {
   final _client = GetIt.I.get<Dio>();
@@ -31,9 +34,28 @@ class ServiceOrderApiClient implements ServiceOrderApiClientInterface {
   }
 
   @override
-  Future<ServiceOrder> createServiceOrderFromAudio(
-      {required String audioPath}) {
-    // TODO: implement createServiceOrderFromAudio
-    throw UnimplementedError();
+  Future<ServiceOrder?> createServiceOrderFromAudio(
+      {required String audioPath}) async {
+    final file = File(audioPath);
+    final bytes = file.readAsBytesSync();
+    final multipartFile = MultipartFile.fromBytes(bytes,
+        filename: 'audio.wav', contentType: MediaType('audio', 'wav'));
+
+    final payload = {
+      'audio': multipartFile,
+    };
+
+    final formData = FormData.fromMap(payload);
+
+    try {
+      final response = await _client.post('/service_order', data: formData);
+      return ServiceOrder.fromJson(response.data);
+    } on DioException catch (e) {
+      print('erro');
+    } on Exception catch (e) {
+      print('erro');
+    }
+
+    return null;
   }
 }

@@ -50,7 +50,11 @@ class ServiceOrderCubit extends Cubit<ServiceOrderState> {
     try {
       final result = await _serviceOrderApiClient.createServiceOrderFromAudio(
           audioPath: audioPath);
-      final newOrders = [result, ...currentOrders];
+      List<ServiceOrder> newOrders = currentOrders;
+      if (result != null) {
+        newOrders = [result, ...currentOrders];
+      }
+
       final newState = ServiceOrderState.loaded(serviceOrders: newOrders);
       emit(newState);
     } on Exception catch (e) {
