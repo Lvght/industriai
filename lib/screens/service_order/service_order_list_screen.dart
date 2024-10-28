@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:industriai/database/app_database.dart';
-import 'package:industriai/screens/service_order/cubit/service_order_cubit.dart';
+import 'package:industriai/global_cubits/service_order/service_order_cubit.dart';
 
 class ServiceOrderListScreen extends StatefulWidget {
   const ServiceOrderListScreen({super.key});
@@ -64,7 +64,7 @@ class _ServiceOrderListScreenState extends State<ServiceOrderListScreen> {
         itemBuilder: (context, index) {
           final order = serviceOrders[index];
           return ListTile(
-            title: Text(order.rawContentDescription),
+            title: Text(order.transcription),
           );
         },
       ),

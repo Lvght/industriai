@@ -9,14 +9,19 @@ class $ServiceOrderTableTable extends ServiceOrderTable
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $ServiceOrderTableTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _rawContentDescriptionMeta =
-      const VerificationMeta('rawContentDescription');
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
-  late final GeneratedColumn<String> rawContentDescription =
-      GeneratedColumn<String>('raw_content_description', aliasedName, false,
-          type: DriftSqlType.string, requiredDuringInsert: true);
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _transcriptionMeta =
+      const VerificationMeta('transcription');
   @override
-  List<GeneratedColumn> get $columns => [rawContentDescription];
+  late final GeneratedColumn<String> transcription = GeneratedColumn<String>(
+      'transcription', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [id, transcription];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -27,26 +32,32 @@ class $ServiceOrderTableTable extends ServiceOrderTable
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
-    if (data.containsKey('raw_content_description')) {
-      context.handle(
-          _rawContentDescriptionMeta,
-          rawContentDescription.isAcceptableOrUnknown(
-              data['raw_content_description']!, _rawContentDescriptionMeta));
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     } else if (isInserting) {
-      context.missing(_rawContentDescriptionMeta);
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('transcription')) {
+      context.handle(
+          _transcriptionMeta,
+          transcription.isAcceptableOrUnknown(
+              data['transcription']!, _transcriptionMeta));
+    } else if (isInserting) {
+      context.missing(_transcriptionMeta);
     }
     return context;
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => const {};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   ServiceOrder map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return ServiceOrder(
-      rawContentDescription: attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}raw_content_description'])!,
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      transcription: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}transcription'])!,
     );
   }
 
@@ -57,18 +68,21 @@ class $ServiceOrderTableTable extends ServiceOrderTable
 }
 
 class ServiceOrder extends DataClass implements Insertable<ServiceOrder> {
-  final String rawContentDescription;
-  const ServiceOrder({required this.rawContentDescription});
+  final String id;
+  final String transcription;
+  const ServiceOrder({required this.id, required this.transcription});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['raw_content_description'] = Variable<String>(rawContentDescription);
+    map['id'] = Variable<String>(id);
+    map['transcription'] = Variable<String>(transcription);
     return map;
   }
 
   ServiceOrderTableCompanion toCompanion(bool nullToAbsent) {
     return ServiceOrderTableCompanion(
-      rawContentDescription: Value(rawContentDescription),
+      id: Value(id),
+      transcription: Value(transcription),
     );
   }
 
@@ -76,75 +90,83 @@ class ServiceOrder extends DataClass implements Insertable<ServiceOrder> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return ServiceOrder(
-      rawContentDescription:
-          serializer.fromJson<String>(json['raw_content_description']),
+      id: serializer.fromJson<String>(json['id']),
+      transcription: serializer.fromJson<String>(json['text']),
     );
   }
   @override
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'raw_content_description':
-          serializer.toJson<String>(rawContentDescription),
+      'id': serializer.toJson<String>(id),
+      'text': serializer.toJson<String>(transcription),
     };
   }
 
-  ServiceOrder copyWith({String? rawContentDescription}) => ServiceOrder(
-        rawContentDescription:
-            rawContentDescription ?? this.rawContentDescription,
+  ServiceOrder copyWith({String? id, String? transcription}) => ServiceOrder(
+        id: id ?? this.id,
+        transcription: transcription ?? this.transcription,
       );
   ServiceOrder copyWithCompanion(ServiceOrderTableCompanion data) {
     return ServiceOrder(
-      rawContentDescription: data.rawContentDescription.present
-          ? data.rawContentDescription.value
-          : this.rawContentDescription,
+      id: data.id.present ? data.id.value : this.id,
+      transcription: data.transcription.present
+          ? data.transcription.value
+          : this.transcription,
     );
   }
 
   @override
   String toString() {
     return (StringBuffer('ServiceOrder(')
-          ..write('rawContentDescription: $rawContentDescription')
+          ..write('id: $id, ')
+          ..write('transcription: $transcription')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => rawContentDescription.hashCode;
+  int get hashCode => Object.hash(id, transcription);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is ServiceOrder &&
-          other.rawContentDescription == this.rawContentDescription);
+          other.id == this.id &&
+          other.transcription == this.transcription);
 }
 
 class ServiceOrderTableCompanion extends UpdateCompanion<ServiceOrder> {
-  final Value<String> rawContentDescription;
+  final Value<String> id;
+  final Value<String> transcription;
   final Value<int> rowid;
   const ServiceOrderTableCompanion({
-    this.rawContentDescription = const Value.absent(),
+    this.id = const Value.absent(),
+    this.transcription = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   ServiceOrderTableCompanion.insert({
-    required String rawContentDescription,
+    required String id,
+    required String transcription,
     this.rowid = const Value.absent(),
-  }) : rawContentDescription = Value(rawContentDescription);
+  })  : id = Value(id),
+        transcription = Value(transcription);
   static Insertable<ServiceOrder> custom({
-    Expression<String>? rawContentDescription,
+    Expression<String>? id,
+    Expression<String>? transcription,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
-      if (rawContentDescription != null)
-        'raw_content_description': rawContentDescription,
+      if (id != null) 'id': id,
+      if (transcription != null) 'transcription': transcription,
       if (rowid != null) 'rowid': rowid,
     });
   }
 
   ServiceOrderTableCompanion copyWith(
-      {Value<String>? rawContentDescription, Value<int>? rowid}) {
+      {Value<String>? id, Value<String>? transcription, Value<int>? rowid}) {
     return ServiceOrderTableCompanion(
-      rawContentDescription:
-          rawContentDescription ?? this.rawContentDescription,
+      id: id ?? this.id,
+      transcription: transcription ?? this.transcription,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -152,9 +174,11 @@ class ServiceOrderTableCompanion extends UpdateCompanion<ServiceOrder> {
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    if (rawContentDescription.present) {
-      map['raw_content_description'] =
-          Variable<String>(rawContentDescription.value);
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (transcription.present) {
+      map['transcription'] = Variable<String>(transcription.value);
     }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
@@ -165,7 +189,8 @@ class ServiceOrderTableCompanion extends UpdateCompanion<ServiceOrder> {
   @override
   String toString() {
     return (StringBuffer('ServiceOrderTableCompanion(')
-          ..write('rawContentDescription: $rawContentDescription, ')
+          ..write('id: $id, ')
+          ..write('transcription: $transcription, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();
@@ -186,12 +211,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
 
 typedef $$ServiceOrderTableTableCreateCompanionBuilder
     = ServiceOrderTableCompanion Function({
-  required String rawContentDescription,
+  required String id,
+  required String transcription,
   Value<int> rowid,
 });
 typedef $$ServiceOrderTableTableUpdateCompanionBuilder
     = ServiceOrderTableCompanion Function({
-  Value<String> rawContentDescription,
+  Value<String> id,
+  Value<String> transcription,
   Value<int> rowid,
 });
 
@@ -204,9 +231,11 @@ class $$ServiceOrderTableTableFilterComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<String> get rawContentDescription => $composableBuilder(
-      column: $table.rawContentDescription,
-      builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get transcription => $composableBuilder(
+      column: $table.transcription, builder: (column) => ColumnFilters(column));
 }
 
 class $$ServiceOrderTableTableOrderingComposer
@@ -218,8 +247,11 @@ class $$ServiceOrderTableTableOrderingComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<String> get rawContentDescription => $composableBuilder(
-      column: $table.rawContentDescription,
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get transcription => $composableBuilder(
+      column: $table.transcription,
       builder: (column) => ColumnOrderings(column));
 }
 
@@ -232,8 +264,11 @@ class $$ServiceOrderTableTableAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<String> get rawContentDescription => $composableBuilder(
-      column: $table.rawContentDescription, builder: (column) => column);
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get transcription => $composableBuilder(
+      column: $table.transcription, builder: (column) => column);
 }
 
 class $$ServiceOrderTableTableTableManager extends RootTableManager<
@@ -264,19 +299,23 @@ class $$ServiceOrderTableTableTableManager extends RootTableManager<
               $$ServiceOrderTableTableAnnotationComposer(
                   $db: db, $table: table),
           updateCompanionCallback: ({
-            Value<String> rawContentDescription = const Value.absent(),
+            Value<String> id = const Value.absent(),
+            Value<String> transcription = const Value.absent(),
             Value<int> rowid = const Value.absent(),
           }) =>
               ServiceOrderTableCompanion(
-            rawContentDescription: rawContentDescription,
+            id: id,
+            transcription: transcription,
             rowid: rowid,
           ),
           createCompanionCallback: ({
-            required String rawContentDescription,
+            required String id,
+            required String transcription,
             Value<int> rowid = const Value.absent(),
           }) =>
               ServiceOrderTableCompanion.insert(
-            rawContentDescription: rawContentDescription,
+            id: id,
+            transcription: transcription,
             rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
