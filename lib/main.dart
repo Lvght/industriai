@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:industriai/api_clients/service_order_api_client.dart';
 import 'package:industriai/api_clients/service_order_api_client_interface.dart';
+import 'package:industriai/database/models/maintenance.dart';
+import 'package:industriai/database/models/procedure.dart';
+import 'package:industriai/database/models/service_order.dart';
 
 import 'package:industriai/helpers/configuration.dart';
 import 'package:industriai/screens/dashboard/dashboard_screen.dart';
@@ -40,8 +44,9 @@ class _InitialLoadState extends State<InitialLoad> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _registerServices();
+      await _registerDatabaseAdapters();
       _sendToNextStep();
     });
   }
@@ -68,6 +73,14 @@ class _InitialLoadState extends State<InitialLoad> {
       builder: (context) => const DashboardScreen(),
     );
     navigator.pushReplacement(route);
+  }
+
+  Future<void> _registerDatabaseAdapters() async {
+    await Hive.initFlutter('hive');
+
+    Hive.registerAdapter(MaintenanceAdapter());
+    Hive.registerAdapter(OrderAdapter());
+    Hive.registerAdapter(ServiceOrderAdapter());
   }
 
   Dio _getHttpClient() {

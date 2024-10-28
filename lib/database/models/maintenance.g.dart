@@ -1,35 +1,32 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'service_order.dart';
+part of 'maintenance.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ServiceOrderAdapter extends TypeAdapter<ServiceOrder> {
+class MaintenanceAdapter extends TypeAdapter<Maintenance> {
   @override
-  final int typeId = 0;
+  final int typeId = 2;
 
   @override
-  ServiceOrder read(BinaryReader reader) {
+  Maintenance read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return ServiceOrder(
-      id: fields[0] as String,
-      transcription: fields[1] as String,
+    return Maintenance(
+      procedure: fields[0] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, ServiceOrder obj) {
+  void write(BinaryWriter writer, Maintenance obj) {
     writer
-      ..writeByte(2)
-      ..writeByte(0)
-      ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.transcription);
+      ..writeByte(0)
+      ..write(obj.procedure);
   }
 
   @override
@@ -38,7 +35,7 @@ class ServiceOrderAdapter extends TypeAdapter<ServiceOrder> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ServiceOrderAdapter &&
+      other is MaintenanceAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
@@ -47,13 +44,11 @@ class ServiceOrderAdapter extends TypeAdapter<ServiceOrder> {
 // JsonSerializableGenerator
 // **************************************************************************
 
-ServiceOrder _$ServiceOrderFromJson(Map<String, dynamic> json) => ServiceOrder(
-      id: json['id'] as String,
-      transcription: json['transcription'] as String,
+Maintenance _$MaintenanceFromJson(Map<String, dynamic> json) => Maintenance(
+      procedure: json['procedure'] as String,
     );
 
-Map<String, dynamic> _$ServiceOrderToJson(ServiceOrder instance) =>
+Map<String, dynamic> _$MaintenanceToJson(Maintenance instance) =>
     <String, dynamic>{
-      'id': instance.id,
-      'transcription': instance.transcription,
+      'procedure': instance.procedure,
     };
