@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:industriai/screens/dashboard/dashboard_cubit.dart';
@@ -25,25 +26,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
             children: [
               Scaffold(
                 body: Center(
-                  child: FilledButton(
-                      onPressed: () async {
-                        final record = AudioRecorder();
-                        if (await record.hasPermission()) {
-                          final documentsDirectory =
-                              await getApplicationDocumentsDirectory();
-                          final filePath =
-                              '${documentsDirectory.path}/testaudio.m4a';
-                          await record.start(const RecordConfig(),
-                              path: filePath);
-                        }
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      OutlinedButton(
+                        onPressed: () async {
+                          final recorder = AudioRecorder();
+                          final appDocumentsDirectory = await getApplicationDocumentsDirectory();
+                          final recordedAudioPath = appDocumentsDirectory.path + '/recorder.wav';
+                          final recordConfig = RecordConfig();
 
-                        await Future.delayed(Duration(seconds: 3));
-                        final path = await record.stop();
-                        record.dispose();
+                          await recorder.start(recordConfig, path: recordedAudioPath);
+                          await Future.delayed(Duration(seconds: 5));
+                          await recorder.stop();
 
-                        print('New file path is $path');
-                      },
-                      child: Text('Gravar')),
+
+                          // Playing
+                          final player = AudioPlayer();
+                          final audioCache = DeviceFileSource(recordedAudioPath);
+
+                          await audioCache.setOnPlayer(player);
+                          await player.setVolume(1);
+                          await player.play(audioCache);
+
+                          await Future.delayed(Duration(seconds: 5));
+
+                        },
+                        child: Text('Ouvir'),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Container(color: Colors.blue),
