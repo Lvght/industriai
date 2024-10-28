@@ -38,8 +38,10 @@ class _InitialLoadState extends State<InitialLoad> {
   void initState() {
     super.initState();
 
-    _registerServices();
-    _sendToNextStep();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _registerServices();
+      _sendToNextStep();
+    });
   }
 
   @override
