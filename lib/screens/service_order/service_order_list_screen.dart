@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:industriai/database/app_database.dart';
+import 'package:industriai/database/service_order.dart';
 import 'package:industriai/global_cubits/service_order/service_order_cubit.dart';
 
 class ServiceOrderListScreen extends StatefulWidget {
@@ -12,16 +12,19 @@ class ServiceOrderListScreen extends StatefulWidget {
 
 class _ServiceOrderListScreenState extends State<ServiceOrderListScreen> {
   final _cubit = ServiceOrderCubit();
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ServiceOrderCubit, ServiceOrderState>(
-        bloc: _cubit,
-        builder: (context, state) {
-          return state.when(
-              initial: _renderInitial,
-              error: _renderError,
-              loaded: _renderLoaded);
-        });
+      bloc: _cubit,
+      builder: (context, state) {
+        return state.when(
+          initial: _renderInitial,
+          error: _renderError,
+          loaded: _renderLoaded,
+        );
+      },
+    );
   }
 
   Widget _renderInitial() {
@@ -33,7 +36,9 @@ class _ServiceOrderListScreenState extends State<ServiceOrderListScreen> {
   }
 
   Widget _renderError(
-      List<ServiceOrder> alreadyLoadedOrders, String errorMessage) {
+    List<ServiceOrder> alreadyLoadedOrders,
+    String errorMessage,
+  ) {
     return Scaffold(
       body: Center(
         child: Column(

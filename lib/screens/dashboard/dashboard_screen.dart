@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:industriai/screens/dashboard/dashboard_cubit.dart';
+import 'package:industriai/screens/service_order/service_order_list_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
 
@@ -58,7 +59,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
               ),
-              Container(color: Colors.blue),
+              ServiceOrderListScreen(),
               Container(color: Colors.amber),
               Container(color: Colors.green),
             ],

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:industriai/api_clients/service_order_api_client.dart';
 import 'package:industriai/api_clients/service_order_api_client_interface.dart';
-import 'package:industriai/database/app_database.dart';
+
+import 'package:industriai/helpers/configuration.dart';
 import 'package:industriai/screens/dashboard/dashboard_screen.dart';
-import 'package:industriai/screens/service_order/service_order_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -57,7 +57,6 @@ class _InitialLoadState extends State<InitialLoad> {
 
   void _registerServices() {
     GetIt.I.registerSingleton<Dio>(_getHttpClient());
-    GetIt.I.registerSingleton(AppDatabase());
     GetIt.I.registerSingleton<ServiceOrderApiClientInterface>(
       ServiceOrderApiClient(),
     );
@@ -72,7 +71,7 @@ class _InitialLoadState extends State<InitialLoad> {
   }
 
   Dio _getHttpClient() {
-    final options = BaseOptions(baseUrl: 'https://jsonplaceholder.typicode.com');
+    final options = BaseOptions(baseUrl: Configuration.baseUrl);
     return Dio(options);
   }
 }
