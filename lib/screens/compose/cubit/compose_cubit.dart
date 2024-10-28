@@ -43,8 +43,6 @@ class ComposeCubit extends Cubit<ComposeState> {
 
   Future<void> send() async {
     emit(state.copyWith(isSending: true));
-    await _recorder.stop();
-    await _recorder.dispose();
     await _apiClient.createServiceOrderFromAudio(audioPath: audioPath);
   }
 }
