@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:hive/hive.dart';
 import 'package:industriai/database/models/database_type_indexes.dart';
-import 'package:industriai/database/models/procedure.dart';
+import 'package:industriai/database/models/order.dart';
 
 part 'service_order.g.dart';
 

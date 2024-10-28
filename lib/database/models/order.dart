@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:industriai/database/models/database_type_indexes.dart';
 import 'package:industriai/database/models/maintenance.dart';
 
-part 'procedure.g.dart';
+part 'order.g.dart';
 
 @JsonSerializable()
 @HiveType(typeId: DatabaseTypeIndexes.order)
@@ -12,11 +12,11 @@ class Order extends HiveObject {
   final String machine;
 
   @HiveField(1)
-  final List<Maintenance> maintenances;
+  final List<Maintenance> maintenance;
 
   Order({
     required this.machine,
-    required this.maintenances,
+    required this.maintenance,
   });
 
   factory Order.fromJson(Map<String, dynamic> json) => _$OrderFromJson(json);

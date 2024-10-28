@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'procedure.dart';
+part of 'order.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
@@ -18,7 +18,7 @@ class OrderAdapter extends TypeAdapter<Order> {
     };
     return Order(
       machine: fields[0] as String,
-      maintenances: (fields[1] as List).cast<Maintenance>(),
+      maintenance: (fields[1] as List).cast<Maintenance>(),
     );
   }
 
@@ -29,7 +29,7 @@ class OrderAdapter extends TypeAdapter<Order> {
       ..writeByte(0)
       ..write(obj.machine)
       ..writeByte(1)
-      ..write(obj.maintenances);
+      ..write(obj.maintenance);
   }
 
   @override
@@ -49,12 +49,12 @@ class OrderAdapter extends TypeAdapter<Order> {
 
 Order _$OrderFromJson(Map<String, dynamic> json) => Order(
       machine: json['machine'] as String,
-      maintenances: (json['maintenances'] as List<dynamic>)
+      maintenance: (json['maintenance'] as List<dynamic>)
           .map((e) => Maintenance.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
 Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
       'machine': instance.machine,
-      'maintenances': instance.maintenances,
+      'maintenance': instance.maintenance,
     };
