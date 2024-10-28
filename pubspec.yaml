@@ -45,6 +45,7 @@ dependencies:
   freezed_annotation: ^2.4.4
   flutter_bloc: ^8.1.6
   record: ^5.1.2
+  audioplayers: ^6.1.0
 
 dev_dependencies:
   drift_dev: ^2.8.3

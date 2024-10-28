@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:industriai/screens/dashboard/dashboard_cubit.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:record/record.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -21,7 +23,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
           body: IndexedStack(
             index: state.currentIndex,
             children: [
-              Container(color: Colors.red),
+              Scaffold(
+                body: Center(
+                  child: FilledButton(
+                      onPressed: () async {
+                        final record = AudioRecorder();
+                        if (await record.hasPermission()) {
+                          final documentsDirectory =
+                              await getApplicationDocumentsDirectory();
+                          final filePath =
+                              '${documentsDirectory.path}/testaudio.m4a';
+                          await record.start(const RecordConfig(),
+                              path: filePath);
+                        }
+
+                        await Future.delayed(Duration(seconds: 3));
+                        final path = await record.stop();
+                        record.dispose();
+
+                        print('New file path is $path');
+                      },
+                      child: Text('Gravar')),
+                ),
+              ),
               Container(color: Colors.blue),
               Container(color: Colors.amber),
               Container(color: Colors.green),
